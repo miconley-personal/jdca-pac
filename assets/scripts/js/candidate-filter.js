@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update URL parameters when checkboxes change
     function updateURL() {
         const formData = new FormData(filterForm);
-        const params = new URLSearchParams();
+        const taxonomyGroups = {};
         
         // Group values by taxonomy name (removing [] from form names)
         for (let pair of formData.entries()) {
@@ -31,29 +31,21 @@ document.addEventListener('DOMContentLoaded', function() {
             // Remove [] from the name to get clean taxonomy name
             const cleanName = name.replace('[]', '');
             
-            if (params.has(cleanName)) {
-                // If parameter already exists, append to array
-                const existing = params.get(cleanName);
-                params.set(cleanName, existing + ',' + value);
-            } else {
-                params.set(cleanName, value);
+            if (!taxonomyGroups[cleanName]) {
+                taxonomyGroups[cleanName] = [];
             }
+            taxonomyGroups[cleanName].push(value);
         }
         
-        // Build final URL parameters
-        const finalParams = new URLSearchParams();
-        for (let [key, value] of params.entries()) {
-            if (value.includes(',')) {
-                // Multiple values - add as array
-                const values = value.split(',');
-                values.forEach(val => finalParams.append(key + '[]', val));
-            } else {
-                // Single value - add as array for consistency
-                finalParams.append(key + '[]', value);
-            }
+        // Build URL parameters manually to avoid encoding issues
+        const paramParts = [];
+        for (let [taxonomy, values] of Object.entries(taxonomyGroups)) {
+            values.forEach(value => {
+                paramParts.push(taxonomy + '[]=' + encodeURIComponent(value));
+            });
         }
         
-        return finalParams.toString();
+        return paramParts.join('&');
     }
     
     // Auto-apply filters when checkbox changes

@@ -11,7 +11,7 @@ get_header(); ?>
 	
 		<div class="inner-content grid-x grid-margin-x grid-padding-x">
 		
-		    <main class="main small-12 medium-12 large-8 margin-auto ads-wrapper" role="main">
+		    <main class="main small-12 medium-12 large-8 margin-auto wrapper-oa" role="main">
 			    
 		    	<header>
 		    		<h1 class="page-title center accent">JDCA PAC Ads</h1>
@@ -66,8 +66,8 @@ get_header(); ?>
 		
 			</main> <!-- end #main -->
 	    
-	    </div> <!-- end #inner-content -->
+	   </div> <!-- end #inner-content -->
 	    
-	</div> <!-- end #content -->
+	</div>  <!-- end #content -->
 
 <?php get_footer(); ?>
